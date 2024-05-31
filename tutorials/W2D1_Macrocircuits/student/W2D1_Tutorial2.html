@@ -1,0 +1,1892 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>Tutorial 2: Double descent — Neuromatch Academy: NeuroAI</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" rel="stylesheet" type="text/css">
+<link href="../../../_static/togglebutton.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/custom.css" rel="stylesheet" type="text/css">
+<link href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94" rel="preload"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../../../_static/togglebutton.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../../../_static/sphinx-thebe.js"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="application/vnd.jupyter.widget-state+json">{"state": {"27d4c1cb86d34adabd039d7fa9be5cda": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "652960783a6a44f49741b122f505e58b": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_27d4c1cb86d34adabd039d7fa9be5cda", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stdout", "text": "If you want to download the slides: https://osf.io/download//\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "<IPython.lib.display.IFrame at 0x7f1d445fbca0>", "text/html": "\n        <iframe\n            width=\"730\"\n            height=\"410\"\n            src=\"https://mfr.ca-1.osf.io/render?url=https://osf.io//?direct%26mode=render%26action=download%26mode=render\"\n            frameborder=\"0\"\n            allowfullscreen\n            \n        ></iframe>\n        "}}], "tabbable": null, "tooltip": null}}, "e07630e888dc46ec8c068558a551f788": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9a25d643558c458da23dfc7191f5f21e": {"model_name": "SliderStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "SliderStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "description_width": "", "handle_color": null}}, "2a8b56ea714c4a0b9a11e0921bac154e": {"model_name": "IntSliderModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "IntSliderModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "IntSliderView", "behavior": "drag-tap", "continuous_update": true, "description": "Hidden Units", "description_allow_html": false, "disabled": false, "layout": "IPY_MODEL_e07630e888dc46ec8c068558a551f788", "max": 300, "min": 0, "orientation": "horizontal", "readout": true, "readout_format": "d", "step": 1, "style": "IPY_MODEL_9a25d643558c458da23dfc7191f5f21e", "tabbable": null, "tooltip": null, "value": 5}}, "02a35adebc534b6a85f74aea3d4f6d71": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "be72038897974b9e80f27ccfff8d3783": {"model_name": "VBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": ["widget-interact"], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "VBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "VBoxView", "box_style": "", "children": ["IPY_MODEL_2a8b56ea714c4a0b9a11e0921bac154e", "IPY_MODEL_e5b3c49f01854617bc796f2d584b555b"], "layout": "IPY_MODEL_02a35adebc534b6a85f74aea3d4f6d71", "tabbable": null, "tooltip": null}}, "98c1aa8f3dcd4cf4ad195ff1d7e27612": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e5b3c49f01854617bc796f2d584b555b": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_98c1aa8f3dcd4cf4ad195ff1d7e27612", "msg_id": "", "outputs": [{"output_type": "error", "ename": "NotImplementedError", "evalue": "Student exercise: complete initialization of layers as well as forward propagation for the network (follow the description in the text above).", "traceback": ["\u001b[0;31m---------------------------------------------------------------------------\u001b[0m", "\u001b[0;31mNotImplementedError\u001b[0m                       Traceback (most recent call last)", "File \u001b[0;32m/opt/hostedtoolcache/Python/3.9.19/x64/lib/python3.9/site-packages/ipywidgets/widgets/interaction.py:240\u001b[0m, in \u001b[0;36minteractive.update\u001b[0;34m(self, *args)\u001b[0m\n\u001b[1;32m    238\u001b[0m     value \u001b[38;5;241m=\u001b[39m widget\u001b[38;5;241m.\u001b[39mget_interact_value()\n\u001b[1;32m    239\u001b[0m     \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mkwargs[widget\u001b[38;5;241m.\u001b[39m_kwarg] \u001b[38;5;241m=\u001b[39m value\n\u001b[0;32m--> 240\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mresult \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mf\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mkwargs\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    241\u001b[0m show_inline_matplotlib_plots()\n\u001b[1;32m    242\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mauto_display \u001b[38;5;129;01mand\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mresult \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n", "Cell \u001b[0;32mIn[17], line 7\u001b[0m, in \u001b[0;36minteractive_predict\u001b[0;34m(n_hid)\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[38;5;129m@widgets\u001b[39m\u001b[38;5;241m.\u001b[39minteract\n\u001b[1;32m      6\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21minteractive_predict\u001b[39m(n_hid \u001b[38;5;241m=\u001b[39m widgets\u001b[38;5;241m.\u001b[39mIntSlider(description\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mHidden Units\u001b[39m\u001b[38;5;124m\"\u001b[39m, \u001b[38;5;28mmin\u001b[39m\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m0\u001b[39m, \u001b[38;5;28mmax\u001b[39m\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m300\u001b[39m, step\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m1\u001b[39m, value\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m5\u001b[39m)):\n\u001b[0;32m----> 7\u001b[0m     \u001b[43mpredict\u001b[49m\u001b[43m(\u001b[49m\u001b[43mx_train\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43my_train\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mx_test\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43my_test\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mn_hidden\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m=\u001b[39;49m\u001b[43m \u001b[49m\u001b[43mn_hid\u001b[49m\u001b[43m)\u001b[49m\n", "Cell \u001b[0;32mIn[4], line 33\u001b[0m, in \u001b[0;36mpredict\u001b[0;34m(x_train, y_train, x_test, y_test, n_hidden, reg)\u001b[0m\n\u001b[1;32m     22\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m \u001b[38;5;21mpredict\u001b[39m(x_train, y_train, x_test, y_test, n_hidden \u001b[38;5;241m=\u001b[39m \u001b[38;5;241m10\u001b[39m, reg \u001b[38;5;241m=\u001b[39m \u001b[38;5;241m0\u001b[39m):\n\u001b[1;32m     23\u001b[0m \u001b[38;5;250m    \u001b[39m\u001b[38;5;124;03m\"\"\"\u001b[39;00m\n\u001b[1;32m     24\u001b[0m \u001b[38;5;124;03m    Plot predicted values for test set.\u001b[39;00m\n\u001b[1;32m     25\u001b[0m \u001b[38;5;124;03m    Inputs:\u001b[39;00m\n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m     31\u001b[0m \u001b[38;5;124;03m    - reg (float, default = 0): regularization term.\u001b[39;00m\n\u001b[1;32m     32\u001b[0m \u001b[38;5;124;03m    \"\"\"\u001b[39;00m\n\u001b[0;32m---> 33\u001b[0m     y_pred \u001b[38;5;241m=\u001b[39m \u001b[43mfit_relu\u001b[49m\u001b[43m(\u001b[49m\u001b[43mx_train\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43my_train\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mx_test\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43my_test\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mn_hidden\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mreg\u001b[49m\u001b[43m)\u001b[49m[\u001b[38;5;241m2\u001b[39m]\n\u001b[1;32m     35\u001b[0m     \u001b[38;5;28;01mwith\u001b[39;00m plt\u001b[38;5;241m.\u001b[39mxkcd():\n\u001b[1;32m     36\u001b[0m         plt\u001b[38;5;241m.\u001b[39mplot(x_test, y_test,linewidth\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m4\u001b[39m,label\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mTest data\u001b[39m\u001b[38;5;124m'\u001b[39m)\n", "Cell \u001b[0;32mIn[10], line 25\u001b[0m, in \u001b[0;36mfit_relu\u001b[0;34m(x_train, y_train, x_test, y_test, n_hidden, reg)\u001b[0m\n\u001b[1;32m     21\u001b[0m n_outputs \u001b[38;5;241m=\u001b[39m \u001b[38;5;241m1\u001b[39m  \u001b[38;5;66;03m# Number of output units\u001b[39;00m\n\u001b[1;32m     23\u001b[0m \u001b[38;5;66;03m###################################################################\u001b[39;00m\n\u001b[1;32m     24\u001b[0m \u001b[38;5;66;03m## Fill out the following then remove\u001b[39;00m\n\u001b[0;32m---> 25\u001b[0m \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mNotImplementedError\u001b[39;00m(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mStudent exercise: complete initialization of layers as well as forward propagation for the network (follow the description in the text above).\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n\u001b[1;32m     26\u001b[0m \u001b[38;5;66;03m###################################################################\u001b[39;00m\n\u001b[1;32m     27\u001b[0m \n\u001b[1;32m     28\u001b[0m \u001b[38;5;66;03m# Layer 1 (Input -> Hidden)\u001b[39;00m\n\u001b[1;32m     29\u001b[0m W1 \u001b[38;5;241m=\u001b[39m np\u001b[38;5;241m.\u001b[39mrandom\u001b[38;5;241m.\u001b[39mnormal(\u001b[38;5;241m0\u001b[39m, \u001b[38;5;241m.\u001b[39m\u001b[38;5;241m.\u001b[39m\u001b[38;5;241m.\u001b[39m, (n_inputs, \u001b[38;5;241m.\u001b[39m\u001b[38;5;241m.\u001b[39m\u001b[38;5;241m.\u001b[39m))  \u001b[38;5;66;03m# Random weights\u001b[39;00m\n", "\u001b[0;31mNotImplementedError\u001b[0m: Student exercise: complete initialization of layers as well as forward propagation for the network (follow the description in the text above)."]}], "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+<script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/W2D1_Macrocircuits/student/W2D1_Tutorial2';</script>
+<link href="../../../_static/ai-logo.png" rel="shortcut icon">
+<link href="../../../genindex.html" rel="index" title="Index">
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../further_reading.html" rel="next" title="Suggested further readings"/>
+<link href="W2D1_Tutorial1.html" rel="prev" title="Tutorial 1: Depth vs width"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</link></link></link></link></link></link></link></link></link></head>
+<body data-default-mode="" data-offset="180" data-spy="scroll" data-target="#bd-toc-nav">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+<label class="sidebar-toggle primary-toggle" for="__primary">
+<span class="fa-solid fa-bars"></span>
+</label>
+<div id="navbar-start">
+<a class="navbar-brand logo" href="../../intro.html">
+<img alt="Logo image" class="logo__image only-light" src="../../../_static/ai-logo.png"/>
+<img alt="Logo image" class="logo__image only-dark" src="../../../_static/ai-logo.png"/>
+</a>
+</div>
+<div class="col-lg-9 navbar-header-items">
+<div class="mr-auto" id="navbar-center">
+<div class="navbar-center-item">
+<nav class="navbar-nav">
+<p aria-label="Site Navigation" aria-level="1" class="sidebar-header-items__title" role="heading">
+        Site Navigation
+    </p>
+<ul class="navbar-nav" id="navbar-main-elements">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../Schedule/schedule_intro.html">
+                        Schedule
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../TechnicalHelp/tech_intro.html">
+                        Technical Help
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../TechnicalHelp/Links_Policy.html">
+                        Quick links and policies
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../prereqs/NeuroAI.html">
+                        Prerequisites and preparatory materials for NeuroAI course
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D1_Generalization/chapter_title.html">
+                        Generalization (W1D1)
+                      </a>
+</li>
+<div class="nav-item dropdown">
+<button aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle nav-item" data-toggle="dropdown" type="button">
+                    More
+                </button>
+<div class="dropdown-menu">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D2_ComparingTasks/chapter_title.html">
+                        Comparing Tasks (W1D2)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/chapter_title.html">
+                        Comparing Artificial And Biological Networks (W1D3)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D5_Microcircuits/chapter_title.html">
+                        Microcircuits (W1D5)
+                      </a>
+</li>
+<li class="nav-item current active">
+<a class="nav-link nav-internal" href="../chapter_title.html">
+                        Macrocircuits (W2D1)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D2_NeuroSymbolicMethods/chapter_title.html">
+                        Neuro Symbolic Methods (W2D2)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D3_Microlearning/chapter_title.html">
+                        Microlearning (W2D3)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D4_Macrolearning/chapter_title.html">
+                        Macrolearning (W2D4)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D5_Mysteries/chapter_title.html">
+                        Mysteries (W2D5)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/README.html">
+                        Introduction
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/docs/project_guidance.html">
+                        Daily guide for projects
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/docs/datasets_overview.html">
+                        Project materials
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/README.html">
+                        Introduction
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/impact_talks.html">
+                        Impact Talks
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/mentorship_program.html">
+                        Mentorship Program
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/career_features.html">
+                        Career Features
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/career_panels.html">
+                        Career Panels
+                      </a>
+</li>
+</div>
+</div>
+</ul>
+</nav>
+</div>
+</div>
+<div id="navbar-end">
+<div class="navbar-end-item navbar-persistent--container">
+<button aria-label="Search" class="btn btn-sm navbar-btn search-button search-button__button" data-toggle="tooltip" title="Search">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</div>
+<div class="navbar-end-item">
+<button aria-label="light/dark" class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" data-toggle="tooltip" title="light/dark">
+<span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+<span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+<span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+</div>
+<div class="navbar-end-item">
+<ul aria-label="Icon Links" class="navbar-nav" id="navbar-icon-links">
+</ul>
+</div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<button aria-label="Search" class="btn btn-sm navbar-btn search-button search-button__button" data-toggle="tooltip" title="Search">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</div>
+<label class="sidebar-toggle secondary-toggle" for="__secondary">
+<span class="fa-solid fa-outdent"></span>
+</label>
+</div>
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-center-item">
+<nav class="navbar-nav">
+<p aria-label="Site Navigation" aria-level="1" class="sidebar-header-items__title" role="heading">
+        Site Navigation
+    </p>
+<ul class="navbar-nav" id="navbar-main-elements">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../Schedule/schedule_intro.html">
+                        Schedule
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../TechnicalHelp/tech_intro.html">
+                        Technical Help
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../TechnicalHelp/Links_Policy.html">
+                        Quick links and policies
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../prereqs/NeuroAI.html">
+                        Prerequisites and preparatory materials for NeuroAI course
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D1_Generalization/chapter_title.html">
+                        Generalization (W1D1)
+                      </a>
+</li>
+<div class="nav-item dropdown">
+<button aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle nav-item" data-toggle="dropdown" type="button">
+                    More
+                </button>
+<div class="dropdown-menu">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D2_ComparingTasks/chapter_title.html">
+                        Comparing Tasks (W1D2)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/chapter_title.html">
+                        Comparing Artificial And Biological Networks (W1D3)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W1D5_Microcircuits/chapter_title.html">
+                        Microcircuits (W1D5)
+                      </a>
+</li>
+<li class="nav-item current active">
+<a class="nav-link nav-internal" href="../chapter_title.html">
+                        Macrocircuits (W2D1)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D2_NeuroSymbolicMethods/chapter_title.html">
+                        Neuro Symbolic Methods (W2D2)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D3_Microlearning/chapter_title.html">
+                        Microlearning (W2D3)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D4_Macrolearning/chapter_title.html">
+                        Macrolearning (W2D4)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../W2D5_Mysteries/chapter_title.html">
+                        Mysteries (W2D5)
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/README.html">
+                        Introduction
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/docs/project_guidance.html">
+                        Daily guide for projects
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/docs/datasets_overview.html">
+                        Project materials
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/README.html">
+                        Introduction
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/impact_talks.html">
+                        Impact Talks
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/mentorship_program.html">
+                        Mentorship Program
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/career_features.html">
+                        Career Features
+                      </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../projects/professional_development/career_panels.html">
+                        Career Panels
+                      </a>
+</li>
+</div>
+</div>
+</ul>
+</nav>
+</div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-end-item">
+<button aria-label="light/dark" class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" data-toggle="tooltip" title="light/dark">
+<span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+<span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+<span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+</div>
+<div class="navbar-end-item">
+<ul aria-label="Icon Links" class="navbar-nav" id="navbar-icon-links">
+</ul>
+</div>
+</div>
+</div>
+<div class="sidebar-start-items sidebar-primary__section">
+<div class="sidebar-start-items__item">
+<a class="navbar-brand logo" href="../../intro.html">
+<img alt="Logo image" class="logo__image only-light" src="../../../_static/ai-logo.png"/>
+<img alt="Logo image" class="logo__image only-dark" src="../../../_static/ai-logo.png"/>
+</a>
+</div>
+<div class="sidebar-start-items__item">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="sidebar-start-items__item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+</li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Schedule/schedule_intro.html">Schedule</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Schedule/daily_schedules.html">General schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Schedule/shared_calendars.html">Shared calendars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Schedule/timezone_widget.html">Timezone widget</a></li>
+</ul>
+</input></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../TechnicalHelp/tech_intro.html">Technical Help</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../TechnicalHelp/Jupyterbook.html">Using jupyterbook</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../TechnicalHelp/Tutorial_colab.html">Using Google Colab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../TechnicalHelp/Tutorial_kaggle.html">Using Kaggle</a></li>
+</ul>
+</input></li>
+<li class="toctree-l2"><a class="reference internal" href="../../TechnicalHelp/Discord.html">Using discord</a></li>
+</ul>
+</input></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../TechnicalHelp/Links_Policy.html">Quick links and policies</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../prereqs/NeuroAI.html">Prerequisites and preparatory materials for NeuroAI course</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W1D1_Generalization/chapter_title.html">Generalization (W1D1)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D1_Generalization/student/W1D1_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D1_Generalization/student/W1D1_Tutorial1.html">Tutorial 1: Generalization in AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D1_Generalization/student/W1D1_Tutorial2.html">Tutorial 2: Generalization in Neuroscience</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D1_Generalization/student/W1D1_Tutorial3.html">Tutorial 3: Generalization in Cognitive Science</a></li>
+</ul>
+</input></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W1D2_ComparingTasks/chapter_title.html">Comparing Tasks (W1D2)</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D2_ComparingTasks/student/W1D2_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D2_ComparingTasks/student/W1D2_Tutorial1.html">Tutorial 1: Task definition, application, relations and impacts on generalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D2_ComparingTasks/student/W1D2_Tutorial2.html">Tutorial 2: Contrastive learning for object recognition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D2_ComparingTasks/student/W1D2_Tutorial3.html">Tutorial 3: Reinforcement learning across temporal scales</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/chapter_title.html">Comparing Artificial And Biological Networks (W1D3)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/student/W1D3_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/student/W1D3_Tutorial1.html">Tutorial 1: Generalization and representational geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/student/W1D3_Tutorial2.html">Tutorial 2: Computation as transformation of representational geometries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/student/W1D3_Tutorial3.html">Tutorial 3: Statistical inference on representational geometries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D3_ComparingArtificialAndBiologicalNetworks/student/W1D3_Tutorial4.html">Tutorial 4: Representational geometry &amp; noise</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Architectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W1D5_Microcircuits/chapter_title.html">Microcircuits (W1D5)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D5_Microcircuits/student/W1D5_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D5_Microcircuits/student/W1D5_Tutorial1.html">Tutorial 1: Sparsity and Sparse Coding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D5_Microcircuits/student/W1D5_Tutorial2.html">Tutorial 2: Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W1D5_Microcircuits/student/W1D5_Tutorial3.html">Tutorial 3: Attention</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../chapter_title.html">Macrocircuits (W2D1)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="W2D1_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="W2D1_Tutorial1.html">Tutorial 1: Depth vs width</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Tutorial 2: Double descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../further_reading.html">Suggested further readings</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/chapter_title.html">Neuro Symbolic Methods (W2D2)</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/student/W2D2_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/student/W2D2_Tutorial1.html">Tutorial 1: Basic operations of vector symbolic algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/student/W2D2_Tutorial2.html">Tutorial 2: Learning with structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/student/W2D2_Tutorial3.html">Tutorial 3: Representations in continuous space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D2_NeuroSymbolicMethods/further_reading.html">Suggested further readings</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W2D3_Microlearning/chapter_title.html">Microlearning (W2D3)</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D3_Microlearning/student/W2D3_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D3_Microlearning/student/W2D3_Tutorial1.html">Tutorial 1: Microlearning</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W2D4_Macrolearning/chapter_title.html">Macrolearning (W2D4)</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Tutorial1.html">Tutorial 1: The problem of changing data distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Tutorial2.html">Tutorial 2: Continual learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Tutorial3.html">Tutorial 3: Meta-learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Tutorial4.html">Tutorial 4: Biological meta reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/student/W2D4_Tutorial5.html">Tutorial 5: Replay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D4_Macrolearning/further_reading.html">Suggested further readings</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Mysteries</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../W2D5_Mysteries/chapter_title.html">Mysteries (W2D5)</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D5_Mysteries/student/W2D5_Intro.html">Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D5_Mysteries/student/W2D5_Tutorial1.html">Tutorial 1: Consciousness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D5_Mysteries/student/W2D5_Tutorial2.html">Tutorial 2: Ethics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../W2D5_Mysteries/student/W2D5_Outro.html">Outro</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project Booklet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/README.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/docs/project_guidance.html">Daily guide for projects</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../projects/docs/datasets_overview.html">Project materials</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../projects/project-notebooks/Macrocircuits.html">Macrocircuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../projects/project-notebooks/Microlearning.html">Microlearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../projects/project-notebooks/ComparingNetworks.html">Comparing Networks</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Professional Development</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/professional_development/README.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/professional_development/impact_talks.html">Impact Talks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/professional_development/mentorship_program.html">Professional developemnt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/professional_development/career_features.html">Career Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/professional_development/career_panels.html">Career Panels</a></li>
+</ul>
+</div>
+</nav>
+</div>
+</div>
+<div class="sidebar-end-items sidebar-primary__section">
+<div class="sidebar-end-items__item">
+</div>
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="col py-1 d-flex header-article-main">
+<div class="header-article__left">
+<label class="sidebar-toggle primary-toggle btn btn-sm" data-placement="right" data-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label>
+</div>
+<div class="header-article__right">
+<div class="dropdown dropdown-launch-buttons">
+<button aria-expanded="false" aria-label="Launch interactive content" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-rocket"></i>
+</button>
+<ul class="dropdown-menu">
+</ul>
+</div>
+<button class="btn btn-sm" data-placement="bottom" data-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<div class="dropdown dropdown-repository-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm dropdown-item" data-placement="left" data-toggle="tooltip" href="https://github.com/neuromatch/NeuroAI_Course" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">repository</span>
+</a>
+
+<li><a class="btn btn-sm dropdown-item" data-placement="left" data-toggle="tooltip" href="https://github.com/neuromatch/NeuroAI_Course/issues/new?title=Issue%20on%20page%20%2Ftutorials/W2D1_Macrocircuits/student/W2D1_Tutorial2.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">open issue</span>
+</a>
+
+</li></li></ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm dropdown-item" data-placement="left" data-toggle="tooltip" href="../../../_sources/tutorials/W2D1_Macrocircuits/student/W2D1_Tutorial2.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+
+<li>
+<button class="btn btn-sm dropdown-item" data-placement="left" data-toggle="tooltip" onclick="printPdf(this)" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+
+</li></li></ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-placement="left" data-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Tutorial 2: Double descent</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#">
+   Tutorial 2: Double descent
+  </a>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#tutorial-objectives">
+   Tutorial Objectives
+  </a>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#imports">
+     Imports
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#figure-settings">
+     Figure settings
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#plotting-functions">
+     Plotting functions
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#helper-functions">
+     Helper functions
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#set-random-seed">
+     Set random seed
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-1-introduction">
+     Video 1: Introduction
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-1-overfitting-in-overparameterized-models">
+   Section 1: Overfitting in overparameterized models
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-2-overfitting-in-overparameterized-models">
+     Video 2: Overfitting in Overparameterized Models
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-1-learning-with-a-simple-neural-network">
+     Coding Exercise 1: Learning with a simple neural network
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-2-the-bias-variance-tradeoff">
+     Coding Exercise 2: The bias-variance tradeoff
+    </a>
+<ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-2-discussion">
+       Coding Exercise 2 Discussion
+      </a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-2-the-modern-regime">
+   Section 2: The modern regime
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-3-modern-regime">
+     Video 3: Modern Regime
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-3-observing-double-descent">
+     Coding Exercise 3: Observing double descent
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#interactive-demo-1-interpolation-point-predictions">
+     Interactive Demo 1: Interpolation point &amp; predictions
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-3-double-descent-noise-regularization">
+   Section 3: Double descent, noise &amp; regularization
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-4-noise-regularization-effects">
+     Video 4: Noise &amp; Regularization Effects
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-4-noise-regularization-impact">
+     Coding Exercise 4: Noise &amp; regularization impact
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-4-double-descent-and-initialization">
+   Section 4: Double descent and initialization
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-5-initialization-scale">
+     Video 5: Initialization Scale
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-5-initialization-scale-impact">
+     Coding Exercise 5: Initialization scale impact
+    </a>
+<ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-5-discussion">
+       Coding Exercise 5 Discussion
+      </a>
+</li>
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-5-summary">
+       Video 5: Summary
+      </a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<article class="bd-article" role="main">
+<p><a href="https://colab.research.google.com/github/neuromatch/NeuroAI_Course/blob/main/tutorials/W2D1_Macrocircuits/student/W2D1_Tutorial2.ipynb" target="_blank"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a>   <a href="https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/student/W2D1_Tutorial2.ipynb" target="_blank"><img alt="Open in Kaggle" src="https://kaggle.com/static/images/open-in-kaggle.svg"/></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="tutorial-2-double-descent">
+<h1>Tutorial 2: Double descent<a class="headerlink" href="#tutorial-2-double-descent" title="Permalink to this heading">#</a></h1>
+<p><strong>Week 2, Day 1: Macrocircuits</strong></p>
+<p><strong>By Neuromatch Academy</strong></p>
+<p><strong>Content creators:</strong> Andrew Saxe, Vidya Muthukumar</p>
+<p><strong>Content reviewers:</strong> Max Kanwal, Surya Ganguli, Xaq Pitkow, Hlib Solodzhuk</p>
+<p><strong>Production editors:</strong> Konstantine Tsafatinos, Ella Batty, Spiros Chavlis, Samuele Bolotta, Hlib Solodzhuk</p>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="tutorial-objectives">
+<h1>Tutorial Objectives<a class="headerlink" href="#tutorial-objectives" title="Permalink to this heading">#</a></h1>
+<p><em>Estimated timing of tutorial: 1 hour</em></p>
+<p>In this tutorial we’ll look at the sometimes surprising behavior of large neural networks, which is called as double descent. This empirical phenomenon puts the classical understanding of the bias-variance tradeoff, which states that we expect to observe poor test performance with the model’s overfit (with increase in its complexity), under the question. In pacticular, we will explore the following:</p>
+<ul class="simple">
+<li><p>notions of low/high bias/variance;</p></li>
+<li><p>improvement of test performance with the network’s overparameterization which leads to large models trend;</p></li>
+<li><p>the conditions for double descent to be observed and what affects its significance;</p></li>
+<li><p>the conditions for double descent to fail.</p></li>
+</ul>
+<p>Let’s jump in!</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "652960783a6a44f49741b122f505e58b"}</script></div>
+</div>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h1>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Imports</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="figure-settings">
+<h2>Figure settings<a class="headerlink" href="#figure-settings" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Figure settings</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'matplotlib.font_manager'</span><span class="p">)</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = 'retina' # perfrom high definition rendering for images and plots
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/NeuromatchAcademy/course-content/main/nma.mplstyle"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="plotting-functions">
+<h2>Plotting functions<a class="headerlink" href="#plotting-functions" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Plotting functions</span>
+
+<span class="k">def</span> <span class="nf">plot_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Plot train and test data (as well as predicted values for test if given).</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test data'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_pred</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Prediction'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Feature'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Target Output'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Plot predicted values for test set.</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+<span class="sd">    - reg (float, default = 0): regularization term.</span>
+<span class="sd">    """</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">fit_relu</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">reg</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test data'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Prediction'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Feature'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Target Output'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Number of Hidden Units = </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Helper functions</span>
+
+<span class="k">def</span> <span class="nf">sin_dataset</span><span class="p">(</span><span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Create a sinusoidal dataset and sample 10 points from it for a training dataset.</span>
+<span class="sd">    Training set incorporates Gaussian noise added to the target values of the given standard deviation.</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - sigma (float, default = 0): standard deviation of the train noise.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - x_train, y_train, x_test, y_test (tuple of np.ndarray): train and test data.</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Create a sinusoidal dataset and sample 10 points from it for a training dataset</span>
+    <span class="n">x_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+    <span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="c1"># y_train = np.sin(x_train) + 0.05 * np.random.normal(size=10)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">x_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fit_relu_init_scale</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">init_scale</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit second layer of network by solving for linear regression with pseudo-inverse for the given training data and evaluate the performance on test one.</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - init_scale (float, default = 0): initial standard deviation for weights in the second layer.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+<span class="sd">    - reg (float, default = 0): regularization term.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - train_err (float): train error value.</span>
+<span class="sd">    - test_err (float): test error value.</span>
+<span class="sd">    - y_pred (np.ndarray): array of predicted values for test data.</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Define network architecture</span>
+    <span class="n">n_inputs</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Number of input features</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Number of output units</span>
+
+    <span class="c1"># Layer 1 (Input -&gt; Hidden)</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">))</span>  <span class="c1"># Random weights</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">))</span>  <span class="c1"># Bias</span>
+
+    <span class="c1"># Layer 2 (Hidden -&gt; Output)</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">init_scale</span><span class="p">,(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">))</span>  <span class="c1"># Initialize weights to zero</span>
+
+    <span class="c1"># Forward propagation</span>
+    <span class="k">def</span> <span class="nf">forward_prop</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">z1</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z1</span><span class="p">)</span>  <span class="c1"># ReLU activation</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">a1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z2</span>
+
+    <span class="c1"># Fit second layer weights with linear regression</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_train</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>  <span class="c1"># Hidden layer activations</span>
+    <span class="n">hidden_pinv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span> <span class="o">+</span> <span class="n">reg</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">)),</span> <span class="n">hidden</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">hidden_pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">)</span> <span class="o">-</span> <span class="n">hidden_pinv</span> <span class="o">@</span> <span class="n">hidden</span><span class="p">)</span> <span class="o">@</span> <span class="n">W2</span>   <span class="c1"># Pseudo-inverse solution plus component in data nullspace</span>
+
+    <span class="c1"># Train Error</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward_prop</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">train_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_train</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Test Error</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward_prop</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    <span class="n">test_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_test</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span>
+
+<span class="k">def</span> <span class="nf">sweep_test_init_scale</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">init_scale</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_reps</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate mean test error for fitting second layer of network for defined number of repetitions.</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - init_scale (float, default = 0): initial standard deviation for weights in the second layer.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - (float): mean error for test data.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fit_relu_init_scale</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">init_scale</span><span class="o">=</span><span class="n">init_scale</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="n">n_hidden</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">)]))</span>
+
+<span class="k">def</span> <span class="nf">sweep_train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_reps</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate mean train error for fitting second layer of network for defined number of repetitions.</span>
+<span class="sd">    Notice that `init_scale` is always set to be 0 in this case.</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - (float): mean error for train data.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fit_relu</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="n">n_hidden</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="p">)]))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="set-random-seed">
+<h2>Set random seed<a class="headerlink" href="#set-random-seed" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Set random seed</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed_torch</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">32</span><span class="p">)</span>
+  <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+  <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">seed_torch</span><span class="p">:</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="video-1-introduction">
+<h2>Video 1: Introduction<a class="headerlink" href="#video-1-introduction" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-input docutils container">
+</div>
+</section>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="section-1-overfitting-in-overparameterized-models">
+<h1>Section 1: Overfitting in overparameterized models<a class="headerlink" href="#section-1-overfitting-in-overparameterized-models" title="Permalink to this heading">#</a></h1>
+<p>In this section we will observe the classical behaviour of overparametrized networks - overfitting.</p>
+<section id="video-2-overfitting-in-overparameterized-models">
+<h2>Video 2: Overfitting in Overparameterized Models<a class="headerlink" href="#video-2-overfitting-in-overparameterized-models" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-input docutils container">
+</div>
+</section>
+<section id="coding-exercise-1-learning-with-a-simple-neural-network">
+<h2>Coding Exercise 1: Learning with a simple neural network<a class="headerlink" href="#coding-exercise-1-learning-with-a-simple-neural-network" title="Permalink to this heading">#</a></h2>
+<p>We start by generating a simple sinusoidal dataset.</p>
+<p>This dataset contains 100 data points, from which we’ve subselected just ten for our training dataset.</p>
+<p>Sample and plot sinusoidal dataset</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Sample and plot sinusoidal dataset</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sin_dataset</span><span class="p">()</span>
+
+<span class="n">plot_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/5dd3047a0cbd7a0cb76be88f114f01a548c97a08506de279d8c9dd2f35fc8d13.png" src="../../../_images/5dd3047a0cbd7a0cb76be88f114f01a548c97a08506de279d8c9dd2f35fc8d13.png">
+</img></div>
+</div>
+<p>We’ll learn this task with a simple neural network: a one hidden layer ReLU network, where the first layer is fixed and random.</p>
+<p>That is, the network computes its hidden activity as <span class="math notranslate nohighlight">\(h = ReLU(W_1x + b)\)</span>, and its output as <span class="math notranslate nohighlight">\(\hat y = W_2h\)</span>.</p>
+<p>The input <span class="math notranslate nohighlight">\(x\in R\)</span> is a scalar. There are <span class="math notranslate nohighlight">\(N_h\)</span> hidden units, and the output <span class="math notranslate nohighlight">\(\hat y\in R\)</span> is a scalar.</p>
+<p>We will initialize <span class="math notranslate nohighlight">\(W_1\)</span> with i.i.d. random Gaussian values with a variance of one, and <span class="math notranslate nohighlight">\(b\)</span> with values drawn i.i.d. uniformly between <span class="math notranslate nohighlight">\(-\pi\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span>. Finally, we will initialize the weights <span class="math notranslate nohighlight">\(W_2\)</span> to zero.</p>
+<p>We only train <span class="math notranslate nohighlight">\(W_2\)</span>, leaving <span class="math notranslate nohighlight">\(W_1\)</span> and <span class="math notranslate nohighlight">\(b\)</span> fixed. We can train <span class="math notranslate nohighlight">\(W_2\)</span> to minimize the mean squared error between the training labels <span class="math notranslate nohighlight">\(y\)</span> and the network’s output on those datapoints.</p>
+<p>Usually we would train this network using gradient descent, but here we’ve taken advantage of the fixed first layer to compute the same final solution as gradient descent using linear regression. This is much faster and will let us rapidly train many networks.</p>
+<details open="">
+<summary> Closed-form solution derivation (optional)</summary>
+<br/>
+<p>To find <span class="math notranslate nohighlight">\(W_2\)</span>, we will rewrite the problem in matrix form. Let:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> be the matrix of input data (shape <span class="math notranslate nohighlight">\( n \times 1 \)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(H\)</span> be the matrix of hidden activations after ReLU (shape <span class="math notranslate nohighlight">\( n \times N_h \)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span> be the vector of target outputs (shape <span class="math notranslate nohighlight">\(n \times 1\)</span>)</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(W_1\)</span>, <span class="math notranslate nohighlight">\(W_2\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are of shape <span class="math notranslate nohighlight">\(N_h \times 1\)</span>.</p>
+<p>Compute the hidden activations:
+$<span class="math notranslate nohighlight">\(
+H = \text{ReLU}(X W_1^\top + b)
+\)</span>$</p>
+<p>The predicted outputs can be written as:
+$<span class="math notranslate nohighlight">\(
+\hat{y} = H W_2
+\)</span>$</p>
+<p>We aim to minimize the mean squared error (MSE) between the predicted output <span class="math notranslate nohighlight">\(\hat{y}\)</span> and the true output <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{MSE} = (H W_2 - y)^2
+\]</div>
+<p>By taking derivative of this expression by <span class="math notranslate nohighlight">\(W_2\)</span>, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+2H^\top HW_2 - 2H^\top y = 0
+\]</div>
+<p>Meaning that, optimal solution <span class="math notranslate nohighlight">\(W_2\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+W_2 = (H^\top H)^{-1}H^\top y
+\]</div>
+<p>It is possible that <span class="math notranslate nohighlight">\(H^\top H\)</span> is not invertible. Then, we use the Moore-Penrose pseudoinverse <span class="math notranslate nohighlight">\((H^\top H)^+\)</span> to find the optimal <span class="math notranslate nohighlight">\(W_2\)</span>:
+$<span class="math notranslate nohighlight">\(
+W_2 = (H^\top H)^+ H^\top y
+\)</span>$</p>
+</details>
+<p>Below is skeleton code for this network. Your task is to implement its weight initialization and forward pass function. In the cell below you can test your solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit_relu</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Fit second layer of network by solving via linear regression for the given training data and evaluate the performance.</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+<span class="sd">    - reg (float, default = 0): regularization term.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - train_err (float): train error value.</span>
+<span class="sd">    - test_err (float): test error value.</span>
+<span class="sd">    - y_pred (np.ndarray): array of predicted values for test data.</span>
+<span class="sd">    """</span>
+
+    <span class="c1"># Define network architecture</span>
+    <span class="n">n_inputs</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Number of input features</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Number of output units</span>
+
+    <span class="c1">###################################################################</span>
+    <span class="c1">## Fill out the following then remove</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete initialization of layers as well as forward propagation for the network (follow the description in the text above)."</span><span class="p">)</span>
+    <span class="c1">###################################################################</span>
+
+    <span class="c1"># Layer 1 (Input -&gt; Hidden)</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">(</span><span class="n">n_inputs</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>  <span class="c1"># Random weights</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">))</span>  <span class="c1"># Bias</span>
+
+    <span class="c1"># Layer 2 (Hidden -&gt; Output)</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="o">...</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>  <span class="c1"># Initialize weights to zero</span>
+
+    <span class="c1"># Forward propagation</span>
+    <span class="k">def</span> <span class="nf">forward_prop</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">z1</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="o">+</span> <span class="o">...</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>  <span class="c1"># ReLU activation</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">a1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z2</span>
+
+    <span class="c1"># Fit second layer weights with linear regression</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_train</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>  <span class="c1"># Hidden layer activations</span>
+    <span class="n">hidden_pinv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hidden</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span> <span class="o">+</span> <span class="n">reg</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">)),</span> <span class="n">hidden</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">hidden_pinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">)</span> <span class="o">-</span> <span class="n">hidden_pinv</span> <span class="o">@</span> <span class="n">hidden</span><span class="p">)</span>  <span class="o">@</span> <span class="n">W2</span>   <span class="c1"># Pseudo-inverse solution plus component in data nullspace</span>
+
+    <span class="c1"># Train Error</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward_prop</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">train_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_train</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Test Error</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward_prop</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    <span class="n">test_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_test</span><span class="o">-</span><span class="n">y_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_b33fda94.py"><em>Click for solution</em></a></p>
+</section>
+<section id="coding-exercise-2-the-bias-variance-tradeoff">
+<h2>Coding Exercise 2: The bias-variance tradeoff<a class="headerlink" href="#coding-exercise-2-the-bias-variance-tradeoff" title="Permalink to this heading">#</a></h2>
+<p>With the network implemented, we now investigate how the size of the network (the number of hidden units it has, <span class="math notranslate nohighlight">\(N_h\)</span>) relates to its ability to generalize.</p>
+<p>Ultimately, the true measure of a learning system is how well it performs on novel inputs, that is, its ability to generalize. The classical story of how model size relates to generalization is the bias-variance tradeoff.</p>
+<p>To start, complete the code below to train several small networks with just two hidden neurons and plotting their predictions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Number of networks to train</span>
+
+<span class="k">def</span> <span class="nf">plot_predictions</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generate train and test data for `n_reps` times, fit it for network with hidden size `n_hid` and plot prediction values.</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - n_hid (int): size of hidden layer.</span>
+<span class="sd">    - n_reps (int): number of data regenerations.</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test data'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+
+        <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">fit_relu</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="n">n_hid</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Prediction'</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">rep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_reps</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1">###################################################################</span>
+            <span class="c1">## Fill out the following then remove</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete generation of new train / test data and visualize it."</span><span class="p">)</span>
+            <span class="c1">###################################################################</span>
+            <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="o">...</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'_'</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Feature'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Target Output'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Number of Hidden Units = </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_hid</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_predictions</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_bbf2fe74.py"><em>Click for solution</em></a></p>
+<p><em>Example output:</em></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_bbf2fe74_0.png"><img align="center" alt="Solution hint" class="align-center" src="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_bbf2fe74_0.png" style="width: 777.0px; height: 577.0px;"/></a>
+<p>With just two hidden units, the model cannot fit the training data, nor can it do well on the test data. We say that this size network has high bias.</p>
+<p>Now let’s train a network with five hidden units.</p>
+<section id="coding-exercise-2-discussion">
+<h3>Coding Exercise 2 Discussion<a class="headerlink" href="#coding-exercise-2-discussion" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Do you expect the network to fit the data better with five hidden units with comparison to two units? Check your intuition by running the cell below.</p></li>
+</ol>
+<p>Observe the performance on 5 hidden units</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Observe the performance on 5 hidden units</span>
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plot_predictions</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+
+</div>
+<p>With five hidden units, the model can do a better job of fitting the training data, and also follows the test data more closely - though still with errors.</p>
+<p>Next let’s try 10 hidden units.</p>
+<p>Observe the performance on 10 hidden units</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Observe the performance on 10 hidden units</span>
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plot_predictions</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+
+</div>
+<p>With 10 hidden units, the network often fits every training datapoint, but generalizes poorly–sometimes catastrophically so. We say that this size network has high variance. Intuitively, it is so complex that it can fit the training data perfectly, but this same complexity means it can take many different shapes in between datapoints.</p>
+<p>We have just traced out the bias-variance tradeoff: the models with 2 hidden units had high bias, while the models with 10 hidden units had high variance. The models with 5 hidden units struck a balance–they were complex enough to achieve relatively low error on the training datapoints, but simple enough to be well constrained by the training data.</p>
+</section>
+</section>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="section-2-the-modern-regime">
+<h1>Section 2: The modern regime<a class="headerlink" href="#section-2-the-modern-regime" title="Permalink to this heading">#</a></h1>
+<p>Estimated timing to here from start of tutorial: 20 minutes</p>
+<p>In this section we will go beyond ten hidden units, which might sound unreasonable, but it will result in unexpected plot twist.</p>
+<section id="video-3-modern-regime">
+<h2>Video 3: Modern Regime<a class="headerlink" href="#video-3-modern-regime" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-input docutils container">
+</div>
+<p>We just saw that a network with 10 hidden units trained on 10 training data points could fail to generalize. If we add even more hidden units, it seems unlikely that the network could perform well. How could hundreds of weights be correctly constrained with just these ten datapoints?</p>
+<p>But let’s try it. Throw caution to the wind and train a network with 500 hidden units.</p>
+<p>Observe the performance on 500 hidden units</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Observe the performance on 500 hidden units</span>
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plot_predictions</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+
+</div>
+</section>
+<section id="coding-exercise-3-observing-double-descent">
+<h2>Coding Exercise 3: Observing double descent<a class="headerlink" href="#coding-exercise-3-observing-double-descent" title="Permalink to this heading">#</a></h2>
+<p>Remarkably, this very large network fits the training datapoints and generalizes well.</p>
+<p>This network has fifty times as many parameters as datapoints. How can this be?</p>
+<p>We’ve tested four different network sizes and seen the qualitative behavior of the predictions. Now let’s systematically compute the average test error for different network sizes.</p>
+<p>For each network size in the array below, train 100 networks and plot their mean test error. Notice that the cell’s execution will take around 1 minute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1">###################################################################</span>
+<span class="c1">## Fill out the following then remove</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete calculation of mean test error for different sizes of hidden units defined above."</span><span class="p">)</span>
+<span class="c1">###################################################################</span>
+
+<span class="k">def</span> <span class="nf">sweep_test</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_reps</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Calculate mean test error for fitting second layer of network for defined number of repetitions.</span>
+<span class="sd">    Notice that `init_scale` is always set to be 0 in this case.</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+<span class="sd">    - n_reps (int, default = 100): number of resamples for data.</span>
+<span class="sd">    - reg (float, default = 0): regularization constant.</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">    - (float): mean error for train data.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">test_errs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sweep_test</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=...</span><span class="p">,</span> <span class="n">n_reps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">n_hid</span> <span class="ow">in</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">n_hids</span><span class="p">,</span><span class="n">test_errs</span><span class="p">,</span><span class="s1">'o-'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Number of Hidden Units'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Test Error'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_f42ee5ad.py"><em>Click for solution</em></a></p>
+<p><em>Example output:</em></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_f42ee5ad_0.png"><img align="center" alt="Solution hint" class="align-center" src="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_f42ee5ad_0.png" style="width: 778.0px; height: 577.0px;"/></a>
+<p>This curve is an example of the <strong>double descent phenomenon</strong>: between 1 hidden unit and 10 hidden units, we see the bias-variance tradeoff (containing the first descent). The test error reaches its peak at 10 hidden units. Then it descends again (hence double descent), eventually outperforming the smaller models.</p>
+<p>Hence in this scenario, larger models perform better–even when they contain many more parameters than datapoints.</p>
+<p>The peak (worst generalization) is at an intermediate model size, when the number of hidden units is equal to the number of examples in this case. More generally, it turns out the peak occurs when the model first becomes complex enough to reach zero training error. This point is known as the interpolation point.</p>
+<p>The trend for deep learning models to grow in size is in part due to this phenomenon. Let’s now see its limits.</p>
+</section>
+<section id="interactive-demo-1-interpolation-point-predictions">
+<h2>Interactive Demo 1: Interpolation point &amp; predictions<a class="headerlink" href="#interactive-demo-1-interpolation-point-predictions" title="Permalink to this heading">#</a></h2>
+<p>In this interactive demo you can move slider for the number of hidden units in the network to be trained on and observe one representative trial of predicted values.</p>
+<p>Execute this cell to observe interactive plot</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Execute this cell to observe interactive plot</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nd">@widgets</span><span class="o">.</span><span class="n">interact</span>
+<span class="k">def</span> <span class="nf">interactive_predict</span><span class="p">(</span><span class="n">n_hid</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Hidden Units"</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">5</span><span class="p">)):</span>
+    <span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="n">n_hid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "be72038897974b9e80f27ccfff8d3783"}</script></div>
+</div>
+<p>The trend for deep learning models to grow in size is in part due to the phenomenon of double descent. Let’s now see its limits.</p>
+</section>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="section-3-double-descent-noise-regularization">
+<h1>Section 3: Double descent, noise &amp; regularization<a class="headerlink" href="#section-3-double-descent-noise-regularization" title="Permalink to this heading">#</a></h1>
+<p>Estimated timing to here from start of tutorial: 35 minutes</p>
+<p>In this section we are going to explore the effect of noise and regularization on double descent behavior.</p>
+<section id="video-4-noise-regularization-effects">
+<h2>Video 4: Noise &amp; Regularization Effects<a class="headerlink" href="#video-4-noise-regularization-effects" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-input docutils container">
+</div>
+</section>
+<section id="coding-exercise-4-noise-regularization-impact">
+<h2>Coding Exercise 4: Noise &amp; regularization impact<a class="headerlink" href="#coding-exercise-4-noise-regularization-impact" title="Permalink to this heading">#</a></h2>
+<p>So far, our training datapoints were noiseless. Intuitively, a noisy training dataset might hurt the ability of complex models to generalize. In this section we are going to explore the effect of noise on double descent behavior.</p>
+<p>Let’s test this. Add i.i.d. Gaussian noise of different standard deviations to the training labels, and plot the resulting double descent curves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_hids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">std_devs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_error</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">std_devs</span><span class="p">,</span> <span class="n">n_hids</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n_reps</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Plot mean test error for distinct values of noise added to train dataset.</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">    - x_train (np.ndarray): train input data.</span>
+<span class="sd">    - y_train (np.ndarray): train target data.</span>
+<span class="sd">    - x_test (np.ndarray): test input data.</span>
+<span class="sd">    - y_test (np.ndarray): test target data.</span>
+<span class="sd">    - std_devs (np.ndarray): different standard deviation values for noise.</span>
+<span class="sd">    - n_hids (np.ndarray): different values for hidden layer size.</span>
+<span class="sd">    - n_hidden (int, default = 10): size of hidden layer.</span>
+<span class="sd">    - n_reps (int, default = 100): number of resamples for data.</span>
+<span class="sd">    - reg (float, default = 0): regularization constant.</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">std_devs</span><span class="p">:</span>
+            <span class="c1">###################################################################</span>
+            <span class="c1">## Fill out the following then remove</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete calculation of mean test error for different noise values."</span><span class="p">)</span>
+            <span class="c1">###################################################################</span>
+            <span class="n">test_errs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sweep_test</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">+</span> <span class="o">...</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span> <span class="o">=</span> <span class="n">n_reps</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="n">reg</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sd</span><span class="p">))</span> <span class="k">for</span> <span class="n">n_hid</span> <span class="ow">in</span> <span class="n">n_hids</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">n_hids</span><span class="p">,</span><span class="n">test_errs</span><span class="p">,</span><span class="s1">'o-'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"std=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sd</span><span class="p">))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Number of Hidden Units'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Test Error'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_error</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">std_devs</span><span class="p">,</span> <span class="n">n_hids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_456caf68.py"><em>Click for solution</em></a></p>
+<p><em>Example output:</em></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_456caf68_0.png"><img align="center" alt="Solution hint" class="align-center" src="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_456caf68_0.png" style="width: 778.0px; height: 577.0px;"/></a>
+<p>Though we are still able to observe double descent effect, its power is reduced with the increase in noise level.</p>
+<p>Thus far, we have examined the impact of number of parameters without any explicit regularization (in which case we saw that all models with &gt; 10 parameters fit all training data including noise). What happens if we add in explicit regularization to prevent overfitting? Let’s take a look.</p>
+<p>Observe the error plots with regularization term included</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Observe the error plots with regularization term included</span>
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">plot_error</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">std_devs</span><span class="p">,</span> <span class="n">n_hids</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+
+</div>
+<p>We observe that the “peak” disappears and the test error roughly monotonically decreases, although it is generally higher for higher noise levels in the training data.</p>
+<p>When our training labels contain noise, are larger models still always better than smaller ones? You may have to run the cell a few times because even with 100 repetitions, these estimates can have high variance.</p>
+<p>Edit the code below to visualize a 500-hidden unit network’s predictions for the case where the noise standard deviation is 0.2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">std_dev</span> <span class="o">=</span> <span class="mf">.2</span>
+
+<span class="c1">###################################################################</span>
+<span class="c1">## Fill out the following then remove</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete noise calculation and add it in appropriate places."</span><span class="p">)</span>
+<span class="c1">###################################################################</span>
+
+<span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">n_reps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test data'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">+</span> <span class="o">...</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+    <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">fit_relu</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">+</span> <span class="o">...</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="n">n_hid</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Prediction'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Feature'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Target Output'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Number of Hidden Units = </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_hid</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_6d385a89.py"><em>Click for solution</em></a></p>
+<p><em>Example output:</em></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_6d385a89_0.png"><img align="center" alt="Solution hint" class="align-center" src="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_6d385a89_0.png" style="width: 777.0px; height: 577.0px;"/></a>
+<p>The network smoothly interpolates between the training data points. Even when noisy, these can still somewhat track the test data. Depending on the noise level, though, a smaller and more constrained model can be better.</p>
+<p>From this we might expect that large models will work particularly well for datasets with little label noise. Many real world datasets fit this requirement: image classification datasets strive to have accurate labels for all datapoints, for instance. Other datasets may not. For instance, measuring a neuron’s activity with a noisy electrode might inject noise into the training labels of a neural dataset.</p>
+</section>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="section-4-double-descent-and-initialization">
+<h1>Section 4: Double descent and initialization<a class="headerlink" href="#section-4-double-descent-and-initialization" title="Permalink to this heading">#</a></h1>
+<p>Estimated timing to here from start of tutorial: 50 minutes</p>
+<p>So far we have considered one important aspect of architecture, namely size or number of hidden neurons. A second critical aspect is initialization.</p>
+<section id="video-5-initialization-scale">
+<h2>Video 5: Initialization Scale<a class="headerlink" href="#video-5-initialization-scale" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-input docutils container">
+</div>
+</section>
+<section id="coding-exercise-5-initialization-scale-impact">
+<h2>Coding Exercise 5: Initialization scale impact<a class="headerlink" href="#coding-exercise-5-initialization-scale-impact" title="Permalink to this heading">#</a></h2>
+<p>Instead of initializing the second layer weights <span class="math notranslate nohighlight">\(W_2\)</span> to zero, we’ll now initialize them with i.i.d. Gaussian elements with a specified standard deviation.</p>
+<section id="coding-exercise-5-discussion">
+<h3>Coding Exercise 5 Discussion<a class="headerlink" href="#coding-exercise-5-discussion" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>How does this change the double descent curve?</p></li>
+</ol>
+<p>Notice that executing this cell will take around 3 minutes. Thus, we invite you to guess / predict what you are going to see while the cell is running.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">init_scales</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">n_hids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1">###################################################################</span>
+<span class="c1">## Fill out the following then remove</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Student exercise: complete initial scale parameter assignment."</span><span class="p">)</span>
+<span class="c1">###################################################################</span>
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">sd</span> <span class="ow">in</span> <span class="n">init_scales</span><span class="p">:</span>
+        <span class="n">test_errs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sweep_test_init_scale</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">init_scale</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_reps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">n_hid</span> <span class="ow">in</span> <span class="n">n_hids</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">n_hids</span><span class="p">,</span><span class="n">test_errs</span><span class="p">,</span><span class="s1">'o-'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Init Scale=</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sd</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Number of Hidden Units'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Test Error'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<p><a class="reference external" href="https://github.com/neuromatch/NeuroAI_Course/tree/main/tutorials/W2D1_Macrocircuits/solutions/W2D1_Tutorial2_Solution_9231bc07.py"><em>Click for solution</em></a></p>
+<p><em>Example output:</em></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_9231bc07_0.png"><img align="center" alt="Solution hint" class="align-center" src="https://raw.githubusercontent.com/neuromatch/NeuroAI_Course/main/tutorials/W2D1_Macrocircuits/static/W2D1_Tutorial2_Solution_9231bc07_0.png" style="width: 778.0px; height: 578.0px;"/></a>
+<p>We see that for overparametrized models, where the number of parameters is larger than the number of training examples, the initialization scale strongly impacts the test error. The good performance of these large models thus depended on our choice of initializing <span class="math notranslate nohighlight">\(W_2\)</span> equal to zero.</p>
+<p>Intuitively, this is because directions of weight space in which we have no training data are not changed by gradient descent, so the initialization stays permanently. Large initializations implement random functions that generalize poorly.</p>
+<p>Let’s see what the predictions of a large-variance-initialization network with 500 hidden neurons looks like.</p>
+<p>Execute the cell to observe the plot</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Execute the cell to observe the plot</span>
+<span class="n">init_scale</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">xkcd</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Test data'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">'Training data'</span><span class="p">)</span>
+    <span class="n">train_err</span><span class="p">,</span> <span class="n">test_err</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">fit_relu_init_scale</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">init_scale</span><span class="o">=</span><span class="n">init_scale</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="n">n_hid</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Prediction'</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Feature'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Target Output'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Number of Hidden Units = </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_hid</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../../_images/1bf6e109f86cd172ef7469bf763d7e25c4475bde705d2c6c5256606754a4c293.png" src="../../../_images/1bf6e109f86cd172ef7469bf763d7e25c4475bde705d2c6c5256606754a4c293.png"/>
+</div>
+</div>
+<p>The network perfectly fits every training data point, but now connects them with more complex functions.</p>
+<p>Intuitively, in a large network there are many ways of achieving zero training error. Gradient descent tends to find solutions that are near the initialization. So simple initializations (here, small variance) yield less complex models that can generalize well.</p>
+<p>Therefore proper initialization is critical for good generalization in large networks.</p>
+</section>
+<section id="video-5-summary">
+<h3>Video 5: Summary<a class="headerlink" href="#video-5-summary" title="Permalink to this heading">#</a></h3>
+<div class="cell tag_remove-input docutils container">
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils"/>
+<section class="tex2jax_ignore mathjax_ignore" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h1>
+<p>Estimated timing of tutorial: 1 hour</p>
+<p>In this tutorial we observed the phenomenon of double descent: the situation when overparameterized network was exepcted to behave as overfitted but instead generalized better to the unseen data. Moreover we discovered how noise, regularization &amp; initial scale impact the effect of double descent, and in some cases can fully cancel it.</p>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tutorials/W2D1_Macrocircuits/student"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="W2D1_Tutorial1.html" id="prev-link" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">Tutorial 1: Depth vs width</p>
+</div>
+</a>
+<a class="right-next" href="../further_reading.html" id="next-link" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">Suggested further readings</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc">
+<div class="toc-item">
+<div class="tocsection onthispage">
+<i class="fa-solid fa-list"></i> On this page
+</div>
+<nav class="page-toc" id="bd-toc-nav">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#">
+   Tutorial 2: Double descent
+  </a>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#tutorial-objectives">
+   Tutorial Objectives
+  </a>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#imports">
+     Imports
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#figure-settings">
+     Figure settings
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#plotting-functions">
+     Plotting functions
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#helper-functions">
+     Helper functions
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#set-random-seed">
+     Set random seed
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-1-introduction">
+     Video 1: Introduction
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-1-overfitting-in-overparameterized-models">
+   Section 1: Overfitting in overparameterized models
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-2-overfitting-in-overparameterized-models">
+     Video 2: Overfitting in Overparameterized Models
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-1-learning-with-a-simple-neural-network">
+     Coding Exercise 1: Learning with a simple neural network
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-2-the-bias-variance-tradeoff">
+     Coding Exercise 2: The bias-variance tradeoff
+    </a>
+<ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-2-discussion">
+       Coding Exercise 2 Discussion
+      </a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-2-the-modern-regime">
+   Section 2: The modern regime
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-3-modern-regime">
+     Video 3: Modern Regime
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-3-observing-double-descent">
+     Coding Exercise 3: Observing double descent
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#interactive-demo-1-interpolation-point-predictions">
+     Interactive Demo 1: Interpolation point &amp; predictions
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-3-double-descent-noise-regularization">
+   Section 3: Double descent, noise &amp; regularization
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-4-noise-regularization-effects">
+     Video 4: Noise &amp; Regularization Effects
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-4-noise-regularization-impact">
+     Coding Exercise 4: Noise &amp; regularization impact
+    </a>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#section-4-double-descent-and-initialization">
+   Section 4: Double descent and initialization
+  </a>
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-5-initialization-scale">
+     Video 5: Initialization Scale
+    </a>
+</li>
+<li class="toc-h2 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-5-initialization-scale-impact">
+     Coding Exercise 5: Initialization scale impact
+    </a>
+<ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#coding-exercise-5-discussion">
+       Coding Exercise 5 Discussion
+      </a>
+</li>
+<li class="toc-h3 nav-item toc-entry">
+<a class="reference internal nav-link" href="#video-5-summary">
+       Video 5: Summary
+      </a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry">
+<a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Neuromatch
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+<p class="last-updated">
+Last updated on None.<br/>
+</p>
+</div>
+<div class="footer-item">
+<div class="extra_footer">
+<div>
+<a href="http://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png"/></a>
+<a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://camo.githubusercontent.com/9b9ea65d95c9ef878afa1987df65731d47681336/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f736561626f726e2e737667"/></a>
+The contents of this repository are shared under the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+Software elements are additionally licensed under the <a href="https://opensource.org/licenses/BSD-3-Clause">BSD (3-Clause) License</a>.
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+</body>
+</html>
