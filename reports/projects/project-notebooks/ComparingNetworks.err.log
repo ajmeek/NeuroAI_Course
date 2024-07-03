@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['# @markdown Local installation', '', 'import contextlib', 'import io', 'import os']
+['from ctd.task_modeling.model.rnn import GRU_RNN', 'from ctd.task_modeling.datamodule.task_datamodule import TaskDataModule', 'from ctd.task_modeling.task_wrapper.task_wrapper import TaskTrainedWrapper', 'from pytorch_lightning import Trainer', '']
 ...
-['EVAL_TARGET_FILE=eval_target.h5', '"""', '', "with open('.env','w') as f:", '  f.write(envStr)']
+['# Step 7: Define the PyTorch Lightning Trainer object', 'trainer = Trainer(max_epochs=500, enable_progress_bar=enable_progress_bar)', '', '# Step 8: Fit the model', 'trainer.fit(task_wrapper, task_datamodule)']
 -------------------
 
